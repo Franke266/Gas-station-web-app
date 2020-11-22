@@ -1,0 +1,67 @@
+{
+  "Gorivo": [
+    {
+      "Id_goriva": 1,
+      "Id_spremnika": 1
+    },
+    {
+      "Id_goriva": 2,
+      "Id_spremnika": 2
+    },
+    {
+      "Id_goriva": 3,
+      "Id_spremnika": 3
+    }
+  ],
+  "Racun": [
+    {
+      "Datum/vrijeme": "15.12.2019.",
+      "Id racuna": 1,
+      "Id_goriva": 1,
+      "Kolicina": 7,
+      "Cijena": 1,
+      "Zaposlenik_izdao": "Pero Peric"
+    },
+    {
+      "Datum/vrijeme": "15.12.2019.",
+      "Id racuna": 2,
+      "Id_goriva": 2,
+      "Kolicina": 7,
+      "Cijena": 1,
+      "Zaposlenik_izdao": "Ivo Ivic"
+    },
+    {
+      "Datum/vrijeme": "17.12.2019.",
+      "Id racuna": 3,
+      "Id_goriva": 1,
+      "Kolicina": 7,
+      "Cijena": 1,
+      "Zaposlenik_izdao": "Ana Anic"
+    },
+    {
+      "Datum/vrijeme": "17.12.2019.",
+      "Id racuna": 4,
+      "Id_goriva": 3,
+      "Kolicina": 7,
+      "Cijena": 1,
+      "Zaposlenik_izdao": "Luka Lukic"
+    }
+  ],
+  "Spremnik": [
+    {
+      "Id_spremnika": 1,
+      "Naziv": "Diesel",
+      "Stanje": 20000
+    },
+    {
+      "Id_spremnika": 2,
+      "Naziv": "Benzin",
+      "Stanje": 20000
+    },
+    {
+      "Id_spremnika": 3,
+      "Naziv": "Plin",
+      "Stanje": 20000
+    }
+  ]
+}

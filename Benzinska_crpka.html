@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Global Fuel</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/spremnik.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="150">
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#"><img src="images/gfuel.png" height="40" width="130"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#spremnici">SPREMNICI</a></li>
+                        <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">RAČUN<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                 <li><a href="#" data-toggle="modal" data-target="#FormIzdajRacun">Izdaj račun</a></li>
+                                <li><a href="Pregled_racuna.html">Pregled računa</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#statistika">STATISTIKA</a></li>
+                        <li><a href="#cjenik">CJENIK</a></li>
+                        <li><a onclick="Logout()" href="index.html"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
+                    </ul>
+                    <div class="modal fade" id="FormIzdajRacun" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info">
+                                    <button  class="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span>
+                                            <span class="sr-only">Zatvori></span>
+                                        </button>
+                                    <h4 class="modal-title text-center" id="myModalLabel">Izdavanje računa</h4>
+                                </div>
+                                <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="Amount">Količina goriva</label>
+                                            <input type="number" class="form-control" id="Amount" placeholder="Količina">
+                                        </div>
+                                        <div id="radio">
+                                            <label>
+                                                    <input type="radio" name="gorivo" value="Diesel" id="diesel"> Diesel 
+                                                    <input type="radio" name="gorivo" value="Benzin" id="benzin"> Benzin 
+                                                    <input type="radio" name="gorivo" value="Plin" id="plin"> Plin 
+                                            </label>
+                                        </div>
+                                        <div class="Diesel selectt" style="display:none">
+                                            <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Preostalo stanje</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="stanje_spremnika_diesel">
+
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="Benzin selectt" style="display:none">
+                                            <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Preostalo stanje</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="stanje_spremnika_benzin">
+
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="Plin selectt" style="display:none">
+                                            <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Preostalo stanje</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="stanje_spremnika_plin">
+
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                        <button onclick="IzdajRacun()" type="submit" class="btn btn-success">Potvrdi</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Zatvori</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="uredi_spremnik1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info">
+                                    <button  class="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span>
+                                            <span class="sr-only">Zatvori></span>
+                                        </button>
+                                    <h4 class="modal-title text-center" id="myModalLabel">Uredi spremnik</h4>
+                                </div>
+                                <div class="modal-body">
+                                       <div class="form-group">
+                                            <label for="Value">Stanje</label>
+                                            <input type="number" class="form-control" id="azuriraj_spremnik1" placeholder="Stanje">
+                                        </div>
+                                        <button onclick="AzurirajDiesel()" type="submit" class="btn btn-success">Potvrdi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="uredi_spremnik2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info">
+                                    <button  class="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span>
+                                            <span class="sr-only">Zatvori></span>
+                                        </button>
+                                    <h4 class="modal-title text-center" id="myModalLabel">Uredi spremnik</h4>
+                                </div>
+                                <div class="modal-body">
+                                       <div class="form-group">
+                                            <label for="Value">Stanje</label>
+                                            <input type="number" class="form-control" id="azuriraj_spremnik2" placeholder="Stanje">
+                                        </div>
+                                        <button onclick="AzurirajBenzin()" type="submit" class="btn btn-success">Potvrdi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="uredi_spremnik3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-info">
+                                    <button  class="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span>
+                                            <span class="sr-only">Zatvori></span>
+                                        </button>
+                                    <h4 class="modal-title text-center" id="myModalLabel">Uredi spremnik</h4>
+                                </div>
+                                <div class="modal-body">
+                                       <div class="form-group">
+                                            <label for="Value">Stanje</label>
+                                            <input type="number" class="form-control" id="azuriraj_spremnik3" placeholder="Stanje">
+                                        </div>
+                                        <button onclick="AzurirajPlin()" type="submit" class="btn btn-success">Potvrdi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="jumbotron text-center">
+            <h1>Global Fuel</h1>
+            <h3>Sigurno do cilja</h3><br>
+        </div>
+    </header>
+
+    <section id="carousel">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="overlay"></div>
+                    <img src="images/FuelSavings.jpg" class="img-responsive" alt="pic1">
+                </div>
+
+                <div class="item">
+                    <div class="overlay"></div>
+                    <img src="images/Fuel_Rewards.jpg" alt="pic2">
+                </div>
+
+                <div class="item">
+                    <div class="overlay"></div>
+                    <img src="images/fuel-pro.jpg" alt="pic3">
+                </div>
+            </div>
+
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Lijevo</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Desno</span>
+            </a>
+        </div>
+    </section>
+    </body>
+    <section id="spremnici">
+            <div class="text-center">
+                <h2>Spremnici</h2>
+                <div id="myDiv2" align="center"></div>
+                <button data-toggle="modal" data-target="#uredi_spremnik1" id="myButton" type="submit"  class="btn btn-success">Ažuriraj</button>
+                <button data-toggle="modal" data-target="#uredi_spremnik2" id="myButton" type="submit" class="btn btn-success">Ažuriraj</button>
+                <button data-toggle="modal" data-target="#uredi_spremnik3" id="myButton" type="submit"  class="btn btn-success">Ažuriraj</button>
+    </section>
+
+    <section id="statistika">
+            <div class="text-center">
+                <h2>Statistika</h2>
+                <div id="myDiv" align="center"><!-- Plotly chart --></div>
+    </section>
+
+    <section id="cjenik">
+        <hr class="cjenik-hr">
+            <div class="text-center">
+                <h2>Cjenik goriva</h2>
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2>Diesel</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p><strong>EURODIESEL BS je bezsumporno gorivo vrhunske kvalitete namijenjeno diesel motorima. Ovo gorivo obogaćeno je jedinstvenom kombinacijom aditiva koji pomažu u čišćenju motora i komora za sagorijevanje od starih naslaga prljavštine i ljepljivih taloga. Pouzdan rad i dugovječnost motora te smanjena potrošnja, glavne su odlike ovog goriva najviše kvalitete. Kvaliteta ovog goriva sukladna je europskoj normi EN 590.</strong></p>
+                                
+                            </div>
+                            <div class="panel-footer">
+                                <h2>8.78kn/l</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2>Benzin</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p><strong>EUROSUPER 95 BS je visokokvalitetno gorivo za benzinske motore s visokotlačnim ubrizgavanjem i za klasične motore s rasplinjačem. Kvaliteta goriva EUROSUPER 95 BS je sukladna europskoj normi EN 228, čime je zajamčeno da svojstva ovoga goriva odgovaraju svojstvima istovrsnih goriva koja se prodaju u državama članicama EU. EUROSUPER 95 BS je gorivo visoke čistoće i niskog sadržaja ukupnog sumpora.</strong></p>
+                            </div>
+                            <div class="panel-footer">
+                                <h2>9.65kn/l</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2>Plin</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p><strong>LPG Maxpower je najkvalitetnije gorivo za motore sa ugrađenom plinskom instalacijom na hrvatskom tržištu. Kvaliteta LPG MaxPower sukladna je europskoj normi EN 589. Visok motorni oktanski broj osigurava bolje iskorištenje motora sagorijevanjem oslobođene energije. Sezonskim prilagođavanjem napona para u spremniku, osigurava se sigurno snabdijevanje distribucijskog sistema goriva u svim vremenskim uvjetima.</strong></p>
+                            </div>
+                            <div class="panel-footer">
+                                <h2>4.60kn/l</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container-fluid futer-container">
+            <div class="row">
+                <div class="col-sm-4 col-xs-12 text-center">
+                    <p>                    
+                    </p>             
+                    <p> &copy; 2020 - GFuel d.o.o | Ivan Franjić</p>
+                   </div>
+            </div>
+        </div>
+    </footer>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-database.js"></script>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
